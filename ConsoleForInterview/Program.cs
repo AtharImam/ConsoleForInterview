@@ -9,7 +9,7 @@ namespace ConsoleForInterview
         static void Main(string[] args)
         {
             DynamicVsObject.Execute();
-            
+             
         }
 
         static int fnc()
