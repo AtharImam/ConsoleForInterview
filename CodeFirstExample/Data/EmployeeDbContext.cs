@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Linq;
 using EfCore = Microsoft.EntityFrameworkCore;
 
 namespace CodeFirstExample.Data
@@ -136,6 +134,7 @@ namespace CodeFirstExample.Data
         public string EmailId { get; set; }
 
         [Column(Order = 2)]
+        [ConcurrencyCheck]
         public string Name { get; set; }
 
         [Column(Order = 6)]
@@ -143,6 +142,9 @@ namespace CodeFirstExample.Data
 
         [ForeignKey("DepartmentId")]
         public Department Department { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 
     public class PermanentEmployee
