@@ -15,6 +15,29 @@ namespace ConsoleApp1
             Console.WriteLine("Is Construcot: "+ci.IsConstructor);
             Console.WriteLine("Is Public: " + ci.IsPublic);
         }
+
+        public static void StringInterpolation()
+        {
+            var date = new DateTime(1731, 11, 25);
+            Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
+
+            const int NameAlignment = -9;
+            const int ValueAlignment = 7;
+
+            double a = 3;
+            double b = 4;
+            Console.WriteLine($"Three classical Pythagorean means of {a} and {b}:");
+            Console.WriteLine($"|{"Arithmetic",NameAlignment}|{0.5 * (a + b),ValueAlignment:F3}|");
+            Console.WriteLine($"|{"Geometric"}|{Math.Sqrt(a * b),ValueAlignment:F3}|");
+            Console.WriteLine($"|{"Harmonic"}|{2 / (1 / a + 1 / b),ValueAlignment:F3}|");
+
+            // Expected output:
+            // Three classical Pythagorean means of 3 and 4:
+            // |Arithmetic|  3.500|
+            // |Geometric|  3.464|
+            // |Harmonic |  3.429|
+        }
+
         class Customer
         {
         }

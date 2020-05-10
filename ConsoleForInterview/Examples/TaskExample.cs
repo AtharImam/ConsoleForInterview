@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,105 @@ namespace ConsoleForInterview
     {
         public static void Execute()
         {
-            new BatchBlockMessageExample().Execute();
+           
+        }
+
+        public static void TaskWaitAllExample()
+        {
+            List<Task> tasks = new List<Task>();
+            for(int index = 0; index < 5; index++)
+            {
+                Task task = Task.Run(() =>
+                {
+                    Console.WriteLine($"Task {index+1} Running....");
+                    Thread.Sleep(5000);
+                });
+                tasks.Add(task);
+            }
+
+            Console.WriteLine("Task.WaitAll called");
+            Task.WaitAll(tasks.ToArray());
+            Console.WriteLine("Task.WaitAll completed");
+        }
+
+        public static void TaskWhenAllAllExample()
+        {
+            List<Task<int>> tasks = new List<Task<int>>();
+            for (int index = 0; index < 5; index++)
+            {
+                Task<int> task = new Task<int>(() =>
+                {
+                    int total = 0;
+                    for (int i = 0; i < index + 10; i++)
+                    {
+                        total += i;
+                    }
+
+                    Thread.Sleep(200);
+                    return total;
+                });
+
+                task.Start();
+                tasks.Add(task);
+            }
+
+            Console.WriteLine("Task.WhenAll called");
+            //Task<int[]> waitTask = Task.WhenAll(tasks.ToArray());
+
+            //foreach(int result in waitTask.Result)
+            //{
+            //    Console.WriteLine("Result : " + result);
+            //}
+
+            Task.WhenAll(tasks.ToArray()).ContinueWith((waitTask) =>
+            {
+                foreach (int result in waitTask.Result)
+                {
+                    Console.WriteLine("Result : " + result);
+                }
+            });
+
+            Task<int> newtask = new Task<int>(() =>
+            {
+                int total = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    total += i;
+                }
+
+                Thread.Sleep(200);
+                return total;
+            });
+
+            newtask.Start();
+            newtask.ContinueWith(t =>
+            {
+                Console.WriteLine("Result : " + t.Result);
+            });
+
+            Console.WriteLine("Task.WhenAll completed");
+        }
+
+        public static async Task ContinueWithExample()
+        {
+            // Execute the antecedent.
+            Task<DayOfWeek> taskA = Task.Run(() => DateTime.Today.DayOfWeek);
+
+            // Execute the continuation when the antecedent finishes.
+            await taskA.ContinueWith(antecedent =>
+            {
+                Console.WriteLine("Today is {0}.", antecedent.Result);
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            });
+        }
+
+        public static async Task AwaitExample()
+        {
+            // Execute the antecedent.
+            Task<DayOfWeek> taskA = Task.Run(() => DateTime.Today.DayOfWeek);
+
+            Console.WriteLine("Today is {0}.", taskA.Result);
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
         }
 
         // Demonstrates how to create a basic dataflow pipeline.

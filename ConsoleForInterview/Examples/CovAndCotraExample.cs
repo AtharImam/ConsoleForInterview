@@ -6,6 +6,7 @@ namespace ConsoleForInterview
     public class CovAndCotraExample
     {
         static object GetObject() { return null; }
+
         static void SetObject(object obj) { }
 
         static string GetString() { return ""; }
@@ -23,7 +24,7 @@ namespace ConsoleForInterview
         }
 
         //delegate T Factory<T>();//delegate Factory // produces error.
-        delegate T Factory<out T>();//out is the Keyword for contravariance
+        delegate T Factory<out T>();//out is the Keyword for covariance
 
         delegate void Action1<in T>(T a);//in is the Keyword for contravariance
 
@@ -38,8 +39,6 @@ namespace ConsoleForInterview
             Factory<Dog> dogMaker = MakeDog;//Create delegate object.
             Factory<Animal> animalMaker = dogMaker;   //Attempt to assign delegate object.
             Console.WriteLine(animalMaker().NumberOfLegs.ToString());
-
-
         }
 
         public static void Execute1()
@@ -51,6 +50,7 @@ namespace ConsoleForInterview
 
             // Covariance.
             IEnumerable<string> strings = new List<string>();
+
             // An object that is instantiated with a more derived type argument
             // is assigned to an object instantiated with a less derived type argument.
             // Assignment compatibility is preserved.
@@ -60,6 +60,7 @@ namespace ConsoleForInterview
             // Assume that the following method is in the class:
             // static void SetObject(object o) { }
             Action<object> actObject = (obj) => { };
+
             // An object that is instantiated with a less derived type argument
             // is assigned to an object instantiated with a more derived type argument.
             // Assignment compatibility is reversed.

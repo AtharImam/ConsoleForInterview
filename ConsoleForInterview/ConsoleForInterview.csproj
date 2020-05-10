@@ -24,4 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HelperLibrary\HelperLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="..\.dockerignore" Link="Examples\.dockerignore" />
+  </ItemGroup>
 </Project>

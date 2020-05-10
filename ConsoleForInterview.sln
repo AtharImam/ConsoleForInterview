@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirstExample", "CodeFir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardConsole", "StandardConsole\StandardConsole.csproj", "{BB574DA6-42CD-4E00-9D63-B5349C431157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{F0F28781-9EE0-4C6F-9C5D-BA7AA1A53DD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{F0F28781-9EE0-4C6F-9C5D-BA7AA1A53DD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApi", "TestWebApi\TestWebApi.csproj", "{DCB8234A-D46F-4F0E-86C3-3D1EF49E3F0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F0F28781-9EE0-4C6F-9C5D-BA7AA1A53DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0F28781-9EE0-4C6F-9C5D-BA7AA1A53DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0F28781-9EE0-4C6F-9C5D-BA7AA1A53DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB8234A-D46F-4F0E-86C3-3D1EF49E3F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB8234A-D46F-4F0E-86C3-3D1EF49E3F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB8234A-D46F-4F0E-86C3-3D1EF49E3F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB8234A-D46F-4F0E-86C3-3D1EF49E3F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

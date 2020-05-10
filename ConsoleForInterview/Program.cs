@@ -1,6 +1,10 @@
-﻿using System;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Runtime.CompilerServices;
+﻿
+using ConsoleForInterview.Examples;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ConsoleForInterview
 {
@@ -8,26 +12,23 @@ namespace ConsoleForInterview
     {
         static void Main(string[] args)
         {
-            DynamicVsObject.Execute();
-             
+            List<empl> list = new List<empl> {
+            new empl{ Name="Athar"},
+            new empl{ Name="Imam"},
+            new empl{ Name="Athar"},
+            new empl{ Name="Shaheen"}
+            };
+            var cnt1 = list.Find(item => item.Name == "Athar");
+            var cnt2 = list.Find(item => item.Name == "SSSSS");
+            var cnt3 = list.FindAll(item => item.Name=="Athar");
+            var cnt4 = list.Where(item => item.Name == "SSSSS");
+            
+            Console.Read();
         }
 
-        static int fnc()
+        class empl
         {
-            return 10;
-        }
-
-        class A
-        {
-
-        }
-
-        class B : A
-        {
-            public B()
-            {
-                A();
-            }
+            public string Name { get; set; }
         }
     }
 }
