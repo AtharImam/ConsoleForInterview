@@ -51,173 +51,174 @@ namespace ConsoleForInterview
             Console.WriteLine("Fifth object");
             Console.Read();
         }
-    }
 
-    public class ObjectPool<T>
-    {
-        private ConcurrentBag<T> _objects;
-        private Func<T> _objectGenerator;
-
-        public ObjectPool(Func<T> objectGenerator)
+        class MyClass
         {
-            if (objectGenerator == null) throw new ArgumentNullException("objectGenerator");
-            _objects = new ConcurrentBag<T>();
-            _objectGenerator = objectGenerator;
+            public int[] Nums { get; set; }
+            public double GetValue(long i)
+            {
+                return Math.Sqrt(Nums[i]);
+            }
+            public MyClass()
+            {
+                Nums = new int[1000000];
+                Random rand = new Random();
+                for (int i = 0; i < Nums.Length; i++)
+                {
+                    Nums[i] = rand.Next();
+                }
+            }
         }
 
-        public T GetObject()
+        class Factory
         {
-            T item;
-            Console.WriteLine("Called GetObject");
-            Console.WriteLine("Total Objects In Collection before get : " + _objects.Count);
-            if (_objects.TryTake(out item))
+            // Maximum objects allowed!
+            private static int _PoolMaxSize = 3;
+            // My Collection Pool
+            private static readonly Queue objPool = new Queue(_PoolMaxSize);
+            public Student GetStudent()
             {
+                Student oStudent;
+                // Check from the collection pool. If exists, return
+                // object; else, create new
+                if (Student.ObjectCounter >= _PoolMaxSize &&
+                   objPool.Count > 0)
+                {
+                    // Retrieve from pool
+                    oStudent = RetrieveFromPool();
+                }
+                else
+                {
+                    oStudent = GetNewStudent();
+                }
+
+                return oStudent;
+            }
+            private Student GetNewStudent()
+            {
+                // Creates a new Student
+                Student oStu = new Student();
+                objPool.Enqueue(oStu);
+                return oStu;
+            }
+            protected Student RetrieveFromPool()
+            {
+                Student oStu;
+                // Check if there are any objects in my collection
+                if (objPool.Count > 0)
+                {
+                    oStu = (Student)objPool.Dequeue();
+                    Student.ObjectCounter--;
+                }
+                else
+                {
+                    // Return a new object
+                    oStu = new Student();
+                }
+
+                return oStu;
+            }
+        }
+        class Student
+        {
+            public static int ObjectCounter = 0;
+            public Student()
+            {
+                ++ObjectCounter;
+            }
+            private string _Firstname;
+            private string _Lastname;
+            private int _RollNumber;
+            private string _Class;
+
+
+            public string Firstname
+            {
+                get
+                {
+                    return _Firstname;
+                }
+                set
+                {
+                    _Firstname = value;
+                }
+            }
+
+            public string Lastname
+            {
+                get
+                {
+                    return _Lastname;
+                }
+                set
+                {
+                    _Lastname = value;
+                }
+            }
+
+            public string Class
+            {
+                get
+                {
+                    return _Class;
+                }
+                set
+                {
+                    _Class = value;
+                }
+            }
+
+            public int RollNumber
+            {
+                get
+                {
+                    return _RollNumber;
+                }
+                set
+                {
+                    _RollNumber = value;
+                }
+            }
+        }
+
+        public class ObjectPool<T>
+        {
+            private ConcurrentBag<T> _objects;
+            private Func<T> _objectGenerator;
+
+            public ObjectPool(Func<T> objectGenerator)
+            {
+                if (objectGenerator == null) throw new ArgumentNullException("objectGenerator");
+                _objects = new ConcurrentBag<T>();
+                _objectGenerator = objectGenerator;
+            }
+
+            public T GetObject()
+            {
+                T item;
+                Console.WriteLine("Called GetObject");
+                Console.WriteLine("Total Objects In Collection before get : " + _objects.Count);
+                if (_objects.TryTake(out item))
+                {
+                    Console.WriteLine("Total Objects In Collection after get  : " + _objects.Count);
+                    return item;
+                }
+
                 Console.WriteLine("Total Objects In Collection after get  : " + _objects.Count);
-                return item;
+                return _objectGenerator();
             }
 
-            Console.WriteLine("Total Objects In Collection after get  : " + _objects.Count);
-            return _objectGenerator();
-        }
-
-        public void PutObject(T item)
-        {
-            Console.WriteLine("Called PutObject");
-            Console.WriteLine("Total Objects In Collection before put : " + _objects.Count);
-            _objects.Add(item);
-            Console.WriteLine("Total Objects In Collection after put  : " + _objects.Count);
-        }
-    }
-
-    // A toy class that requires some resources to create.
-    // You can experiment here to measure the performance of the
-    // object pool vs. ordinary instantiation.
-    class MyClass
-    {
-        public int[] Nums { get; set; }
-        public double GetValue(long i)
-        {
-            return Math.Sqrt(Nums[i]);
-        }
-        public MyClass()
-        {
-            Nums = new int[1000000];
-            Random rand = new Random();
-            for (int i = 0; i < Nums.Length; i++)
+            public void PutObject(T item)
             {
-                Nums[i] = rand.Next();
-            }
-        }
-    }
-
-    class Factory
-    {
-        // Maximum objects allowed!
-        private static int _PoolMaxSize = 3;
-        // My Collection Pool
-        private static readonly Queue objPool = new Queue(_PoolMaxSize);
-        public Student GetStudent()
-        {
-            Student oStudent;
-            // Check from the collection pool. If exists, return
-            // object; else, create new
-            if (Student.ObjectCounter >= _PoolMaxSize &&
-               objPool.Count > 0)
-            {
-                // Retrieve from pool
-                oStudent = RetrieveFromPool();
-            }
-            else
-            {
-                oStudent = GetNewStudent();
-            }
-
-            return oStudent;
-        }
-        private Student GetNewStudent()
-        {
-            // Creates a new Student
-            Student oStu = new Student();
-            objPool.Enqueue(oStu);
-            return oStu;
-        }
-        protected Student RetrieveFromPool()
-        {
-            Student oStu;
-            // Check if there are any objects in my collection
-            if (objPool.Count > 0)
-            {
-                oStu = (Student)objPool.Dequeue();
-                Student.ObjectCounter--;
-            }
-            else
-            {
-                // Return a new object
-                oStu = new Student();
-            }
-
-            return oStu;
-        }
-    }
-    class Student
-    {
-        public static int ObjectCounter = 0;
-        public Student()
-        {
-            ++ObjectCounter;
-        }
-        private string _Firstname;
-        private string _Lastname;
-        private int _RollNumber;
-        private string _Class;
-
-
-        public string Firstname
-        {
-            get
-            {
-                return _Firstname;
-            }
-            set
-            {
-                _Firstname = value;
+                Console.WriteLine("Called PutObject");
+                Console.WriteLine("Total Objects In Collection before put : " + _objects.Count);
+                _objects.Add(item);
+                Console.WriteLine("Total Objects In Collection after put  : " + _objects.Count);
             }
         }
 
-        public string Lastname
-        {
-            get
-            {
-                return _Lastname;
-            }
-            set
-            {
-                _Lastname = value;
-            }
-        }
-
-        public string Class
-        {
-            get
-            {
-                return _Class;
-            }
-            set
-            {
-                _Class = value;
-            }
-        }
-
-        public int RollNumber
-        {
-            get
-            {
-                return _RollNumber;
-            }
-            set
-            {
-                _RollNumber = value;
-            }
-        }
+        // A toy class that requires some resources to create.
+        // You can experiment here to measure the performance of the
+        // object pool vs. ordinary instantiation.
     }
 }

@@ -17,28 +17,28 @@ namespace TestWebApi
         public static void Main(string[] args)
         {
             CreateHostBuilder(args)
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseEnvironment("Development")
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                //.UseEnvironment("Development")
                 .Build()
                 .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-             .ConfigureServices((context, services) =>
-             {
-                 //services.Configure<KestrelServerOptions>(context.Configuration.GetSection("Kestrel"));
-             })
+             //.ConfigureServices((context, services) =>
+             //{
+             //    //services.Configure<KestrelServerOptions>(context.Configuration.GetSection("Kestrel"));
+             //})
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel(options =>
-                    {
+                    //webBuilder.UseKestrel(options =>
+                    //{
                         
-                    });
-                    webBuilder.ConfigureKestrel(serverOptions =>
-                    {
-                        serverOptions.Limits.Http2.HeaderTableSize = 4096;
-                    });
+                    //});
+                    //webBuilder.ConfigureKestrel(serverOptions =>
+                    //{
+                    //    serverOptions.Limits.Http2.HeaderTableSize = 4096;
+                    //});
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -205,13 +205,9 @@
   <ItemGroup>
     <Compile Include="Data\EmployeeDbContext.cs" />
     <Compile Include="Data\GeneralEntity.cs" />
-    <Compile Include="Migrations\20200428010651_InitEmployeeDb.cs" />
-    <Compile Include="Migrations\20200428010651_InitEmployeeDb.designer.cs">
-      <DependentUpon>20200428010651_InitEmployeeDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20200510210132_addtimestamptoemployee.cs" />
-    <Compile Include="Migrations\20200510210132_addtimestamptoemployee.designer.cs">
-      <DependentUpon>20200510210132_addtimestamptoemployee.cs</DependentUpon>
+    <Compile Include="Migrations\20200513110338_initdb.cs" />
+    <Compile Include="Migrations\20200513110338_initdb.designer.cs">
+      <DependentUpon>20200513110338_initdb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\EmployeeDbContextModelSnapshot.cs" />
     <Compile Include="ProductModel.cs" />

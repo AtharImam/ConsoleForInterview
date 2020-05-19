@@ -11,10 +11,11 @@ namespace CodeFirstExample.Data
     {
         public EmployeeDbContext()
         {
-         //this.Database.ExecuteSqlCommand  
-         //this.Employees.FromSql
-         //this.Employees.FromSqlRaw
-       
+            //this.Database.ExecuteSqlCommand  
+            //this.Employees.FromSql
+            //this.Employees.FromSqlRaw
+            //this.ChangeTracker.LazyLoadingEnabled = false;
+            
         }
 
         public EfCore.DbSet<Employee> Employees { get; set; }
@@ -38,32 +39,53 @@ namespace CodeFirstExample.Data
         public EfCore.DbSet<TestEmployee> TestEmployees { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.;Database=EmployeeDb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=EmployeeDb;Trusted_Connection=True;",options=>
+            {
+              
+            });
+
+            //this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Employee>()
+             .HasOne(s => s.Department)
+             .WithMany(ad => ad.Employees)
+             .HasForeignKey(ad => ad.DepartmentId);
+            //modelBuilder.Entity<Employee>().Property<DateTime>("CreatedDate").HasDefaultValue(DateTime.Now);
+
+            var allEntities = modelBuilder.Model.GetEntityTypes();
+
+            foreach (var entity in allEntities)
+            {
+                if (entity.BaseType == null && entity.FindProperty("CreatedDate") == null)
+                {
+                    entity.AddProperty("CreatedDate", typeof(DateTime)).SetDefaultValue(DateTime.Now);
+                }
+
+                //if (entity.BaseType == null && entity.FindProperty("UpdatedDate") == null)
+                //{
+                //    entity.AddProperty("UpdatedDate", typeof(DateTime)).SetDefaultValue(DateTime.Now);
+                //}
+
+                //    if ( entityType.BaseType != null)
+                //    {
+                //        modelBuilder.Ignore(entityType.ClrType);
+                //    }
+            }
+
+
             //if (typeof(TEntity).BaseType == null)
             //    modelBuilder.Entity<Employee>().ToTable("Tbl_Employee");
 
             //modelBuilder.Entity<PermanentEmployee>().HasNoKey();
             //modelBuilder.Entity<ContractEmployee>().HasNoKey();
-            modelBuilder.Entity<Department>().HasData(new Department { DeptId = 1, Name = "Admin" });
-            modelBuilder.Entity<Department>().HasData(new Department { DeptId = 2, Name = "IT" });
+            modelBuilder.Entity<Department>().HasData(new Department { DepartmentId = 1, Name = "Admin" });
+            modelBuilder.Entity<Department>().HasData(new Department { DepartmentId = 2, Name = "IT" });
             //modelBuilder.Entity<BankAccount>().ToTable("BankAccounts");
-            //modelBuilder.Entity<CreditCard>().ToTable("CreditCards");
 
             modelBuilder.Entity<TestEmployee>().HasKey(p => new { p.Id, p.EmployeeType });
-
-            //var entityTypes = modelBuilder.Model.GetEntityTypes().ToList();
-
-            //foreach (var entityType in entityTypes)
-            //{
-            //    if (entityType.BaseType != null)
-            //    {
-            //        modelBuilder.Ignore(entityType.ClrType);
-            //    }
-            //}
 
             var emp1 = new Employee
             {
@@ -88,20 +110,6 @@ namespace CodeFirstExample.Data
             modelBuilder.Entity<Employee>().HasData(emp1);
 
             modelBuilder.Entity<Employee>().HasData(emp2);
-
-            //modelBuilder.Entity<PermanentEmployee>().HasData(new PermanentEmployee
-            //{
-            //    PEId=1,
-            //    EmpId = 1,
-            //    AnnualSalary = 200000
-            //});
-
-            //modelBuilder.Entity<ContractEmployee>().HasData(new ContractEmployee
-            //{
-            //    CEId=1,
-            //    EmpId = 2,
-            //    HourlySalary = 500
-            //});
 
             base.OnModelCreating(modelBuilder);
         }
@@ -138,6 +146,7 @@ namespace CodeFirstExample.Data
         public string Name { get; set; }
 
         [Column(Order = 6)]
+        
         public int DepartmentId { get; set; }
 
         [ForeignKey("DepartmentId")]
@@ -176,11 +185,11 @@ namespace CodeFirstExample.Data
     public class Department
     {
         [Key]
-        public int DeptId { get; set; }
+        public int DepartmentId { get; set; }
 
         public string Name { get; set; }
 
-        public List<Department> Departments { get; set; }
+        public List<Employee> Employees { get; set; }
     }
 
     public class PersonTph

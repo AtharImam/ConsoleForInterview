@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CodeFirstExample.Migrations
 {
-    public partial class InitEmployeeDb : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace CodeFirstExample.Migrations
                     BillingDetailId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Owner = table.Column<string>(nullable: true),
-                    Number = table.Column<string>(nullable: true)
+                    Number = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 359, DateTimeKind.Local).AddTicks(1311))
                 },
                 constraints: table =>
                 {
@@ -25,20 +26,14 @@ namespace CodeFirstExample.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    DeptId = table.Column<int>(nullable: false)
+                    DepartmentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    DepartmentDeptId = table.Column<int>(nullable: true)
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.DeptId);
-                    table.ForeignKey(
-                        name: "FK_Departments_Departments_DepartmentDeptId",
-                        column: x => x.DepartmentDeptId,
-                        principalTable: "Departments",
-                        principalColumn: "DeptId",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_Departments", x => x.DepartmentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,6 +43,7 @@ namespace CodeFirstExample.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783)),
                     Discriminator = table.Column<string>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: true),
                     Turnover = table.Column<decimal>(nullable: true)
@@ -63,7 +59,8 @@ namespace CodeFirstExample.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -76,7 +73,8 @@ namespace CodeFirstExample.Migrations
                 {
                     Id = table.Column<int>(nullable: false),
                     EmployeeType = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -93,7 +91,9 @@ namespace CodeFirstExample.Migrations
                     MobileNo = table.Column<string>(nullable: true),
                     EmailId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    DepartmentId = table.Column<int>(nullable: false)
+                    DepartmentId = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -102,7 +102,7 @@ namespace CodeFirstExample.Migrations
                         name: "FK_Employees_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "DeptId",
+                        principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -111,7 +111,8 @@ namespace CodeFirstExample.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false)
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -129,7 +130,8 @@ namespace CodeFirstExample.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Turnover = table.Column<decimal>(nullable: false)
+                    Turnover = table.Column<decimal>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -149,7 +151,8 @@ namespace CodeFirstExample.Migrations
                     CEId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmpId = table.Column<int>(nullable: false),
-                    HourlySalary = table.Column<decimal>(nullable: false)
+                    HourlySalary = table.Column<decimal>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -169,7 +172,8 @@ namespace CodeFirstExample.Migrations
                     PEId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmpId = table.Column<int>(nullable: false),
-                    AnnualSalary = table.Column<decimal>(nullable: false)
+                    AnnualSalary = table.Column<decimal>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783))
                 },
                 constraints: table =>
                 {
@@ -184,13 +188,13 @@ namespace CodeFirstExample.Migrations
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "DeptId", "DepartmentDeptId", "Name" },
-                values: new object[] { 1, null, "Admin" });
+                columns: new[] { "DepartmentId", "Name" },
+                values: new object[] { 1, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "DeptId", "DepartmentDeptId", "Name" },
-                values: new object[] { 2, null, "IT" });
+                columns: new[] { "DepartmentId", "Name" },
+                values: new object[] { 2, "IT" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
@@ -206,11 +210,6 @@ namespace CodeFirstExample.Migrations
                 name: "IX_ContractEmployees_EmpId",
                 table: "ContractEmployees",
                 column: "EmpId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Departments_DepartmentDeptId",
-                table: "Departments",
-                column: "DepartmentDeptId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",

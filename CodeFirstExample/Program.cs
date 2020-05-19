@@ -1,12 +1,9 @@
 ﻿using CodeFirstExample.Data;
-using Microsoft.AspNetCore.JsonPatch;
-using Newtonsoft.Json;
-using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace CodeFirstExample
 {
@@ -16,13 +13,28 @@ namespace CodeFirstExample
         {
             using(var dbcontext=new EmployeeDbContext())
             {
-                var empl = dbcontext.Employees.FirstOrDefault(item => item.Name == "Athar");
-                if (empl != null)
-                {
-                    empl.MobileNo = "45454545";
-                }
+                //var empl = new Employee
+                //{
+                //    Gender = "Male",
+                //    EmailId = "Imam@y.c",
+                //    MobileNo = "453434",
+                //    Name = "Imam",
+                //    DepartmentId = 3,
+                //    Department = new Department { DepartmentId = 3, Name = "HR" }
+                //};
 
-                dbcontext.SaveChanges();
+                //dbcontext.Employees.Attach(empl);
+                //dbcontext.SaveChanges();
+
+                var empl = dbcontext.Employees.Include(e=>e.Department).FirstOrDefault(item => item.Name == "Athar");
+                dbcontext.Entry(empl).Reference(item => item.Department).Load();
+                System.Console.WriteLine($"Name: {empl.Name}, Department: {empl.Department.Name}");
+
+                var dept = dbcontext.Departments.Find(1);
+                dbcontext.Entry(dept).Collection(item => item.Employees).Load();
+                System.Console.WriteLine($"Name: {dept.Name}, Department: {dept.Employees[0].Name}");
+                // var empl = dbcontext.Employees.FromSqlRaw("Select * From Employees Where Name = 'Athar'").First();
+                //var pers = from p in dbcontext.Employees select p;
             }
         }
     }

@@ -1,44 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.EntitySql;
+using System.Threading;
+using System.Xml.Schema;
 
 namespace ConsoleForInterview
 {
     public class CovAndCotraExample
     {
-        static object GetObject() { return null; }
+        static void SetObject(object obj)
+        {
+            Console.WriteLine(obj + " Called");
+        }
 
-        static void SetObject(object obj) { }
-
-        static string GetString() { return ""; }
-        static void SetString(string str) { }
-
-        static void Test()
+        static string GetString()
+        {
+            return "GetString called";
+        }
+        
+        public static void Test()
         {
             // Covariance. A delegate specifies a return type as object,  
             // but you can assign a method that returns a string.  
             Func<object> del = GetString;
+            Console.WriteLine(del.Invoke());
 
             // Contravariance. A delegate specifies a parameter type as string,  
             // but you can assign a method that takes an object.  
             Action<string> del2 = SetObject;
+            del2.Invoke("SetObject");
         }
 
-        //delegate T Factory<T>();//delegate Factory // produces error.
-        delegate T Factory<out T>();//out is the Keyword for covariance
+        delegate T CovFactory<out T>(string name, int legs);
 
-        delegate void Action1<in T>(T a);//in is the Keyword for contravariance
+        delegate T CovFactory<out T, out T1>(out Animal T1,string name, int legs);
 
-        static Dog MakeDog()//Method that matches delegate Factory
-        {
-            return new Dog();
-        }
+        delegate void ConFactory<in T>(T t);
 
         public static void Execute()
         {
-            //////Covariance
-            Factory<Dog> dogMaker = MakeDog;//Create delegate object.
-            Factory<Animal> animalMaker = dogMaker;   //Attempt to assign delegate object.
-            Console.WriteLine(animalMaker().NumberOfLegs.ToString());
+            CovFactory<Animal> ani = new CovFactory<Dog>((name, legs) =>
+            {
+                Dog dog = new Dog() { Name = name, NumberOfLegs = legs };
+                return dog;
+            });
+
+            CovFactory<Animal, Animal> ant = (out Animal T1, string name, int legs) =>
+            {
+                T1 = new Dog();
+                return T1;
+            };
+
+            ani.Invoke("Puppy", 4).Display();
+            Console.WriteLine("**********************");
+            ConFactory<Dog> dog = new ConFactory<Animal>(param =>
+              {
+                  param.Display();
+              });
+
+            dog.Invoke(new Dog() { Name = "Tommy", NumberOfLegs = 4 });
+        }
+
+        private static Animal Method(out Animal T1, string name, int legs)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dog MakeDog(string name, int legs)
+        {
+            Dog dog = new Dog() { Name = name, NumberOfLegs = legs };
+            return dog;
         }
 
         public static void Execute1()
@@ -69,11 +100,32 @@ namespace ConsoleForInterview
 
         public class Animal
         {
+            public Animal()
+            {
+                Console.WriteLine("Animal Called");
+            } 
+
             public int NumberOfLegs = 4;
+
+            public virtual void Display()
+            {
+                Console.WriteLine("Number of legs: " + NumberOfLegs);
+            }
         }
 
         public class Dog : Animal
         {
+            public Dog()
+            {
+                Console.WriteLine("Dog Called");
+            }
+
+            public string Name { get; set; }
+
+            public override void Display()
+            {
+                Console.WriteLine($"Name: {Name}, Number of legs: {NumberOfLegs}");
+            }
         }
     }
 

@@ -17,6 +17,38 @@ namespace ConsoleForInterview
            
         }
 
+        public static async Task TaskThreadIdExample()
+        {
+            Console.WriteLine("Main First ThreadId : " + Thread.CurrentThread.ManagedThreadId);
+            await DoSome(1);
+            await DoSome(2);
+            await DoSome(3);
+            Console.WriteLine("Main Last ThreadId : " + Thread.CurrentThread.ManagedThreadId);
+            Console.Read();
+        }
+
+        static async Task DoSome()
+        {
+            await Task.Run(() =>
+            {
+                Console.WriteLine("Withing Task ThreadId : " + Thread.CurrentThread.ManagedThreadId);
+                Thread.Sleep(100);
+            });
+
+            Console.WriteLine("After Task ThreadId : " + Thread.CurrentThread.ManagedThreadId);
+        }
+
+        static async Task DoSome(int value)
+        {
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"{value}->Withing Task ThreadId : {Thread.CurrentThread.ManagedThreadId}");
+                Thread.Sleep(100);
+            });
+
+            Console.WriteLine($"{value}->After Task ThreadId : {Thread.CurrentThread.ManagedThreadId}");
+        }
+
         public static void TaskWaitAllExample()
         {
             List<Task> tasks = new List<Task>();

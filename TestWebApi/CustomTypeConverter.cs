@@ -51,8 +51,7 @@ namespace TestWebApi
             List<int> list = new List<int>();
             foreach (string part in parts)
             {
-                int value = 0;
-                if (int.TryParse(part, out value))
+                if (int.TryParse(part, out int value))
                 {
                     list.Add(value);
                 }

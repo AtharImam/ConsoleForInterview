@@ -26,6 +26,11 @@ namespace CodeFirstExample.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 359, DateTimeKind.Local).AddTicks(1311));
+
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,6 +48,11 @@ namespace CodeFirstExample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
 
                     b.Property<int>("EmpId")
                         .HasColumnType("int");
@@ -62,6 +72,11 @@ namespace CodeFirstExample.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -72,32 +87,32 @@ namespace CodeFirstExample.Migrations
 
             modelBuilder.Entity("CodeFirstExample.Data.Department", b =>
                 {
-                    b.Property<int>("DeptId")
+                    b.Property<int>("DepartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DepartmentDeptId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DeptId");
-
-                    b.HasIndex("DepartmentDeptId");
+                    b.HasKey("DepartmentId");
 
                     b.ToTable("Departments");
 
                     b.HasData(
                         new
                         {
-                            DeptId = 1,
+                            DepartmentId = 1,
                             Name = "Admin"
                         },
                         new
                         {
-                            DeptId = 2,
+                            DepartmentId = 2,
                             Name = "IT"
                         });
                 });
@@ -108,6 +123,11 @@ namespace CodeFirstExample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
@@ -162,6 +182,11 @@ namespace CodeFirstExample.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
+
                     b.Property<decimal>("Turnover")
                         .HasColumnType("decimal(18,2)");
 
@@ -180,6 +205,11 @@ namespace CodeFirstExample.Migrations
                     b.Property<decimal>("AnnualSalary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
+
                     b.Property<int>("EmpId")
                         .HasColumnType("int");
 
@@ -195,6 +225,11 @@ namespace CodeFirstExample.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -219,6 +254,11 @@ namespace CodeFirstExample.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -237,6 +277,11 @@ namespace CodeFirstExample.Migrations
 
                     b.Property<string>("EmployeeType")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 5, 13, 16, 33, 38, 368, DateTimeKind.Local).AddTicks(2783));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -284,17 +329,10 @@ namespace CodeFirstExample.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CodeFirstExample.Data.Department", b =>
-                {
-                    b.HasOne("CodeFirstExample.Data.Department", null)
-                        .WithMany("Departments")
-                        .HasForeignKey("DepartmentDeptId");
-                });
-
             modelBuilder.Entity("CodeFirstExample.Data.Employee", b =>
                 {
                     b.HasOne("CodeFirstExample.Data.Department", "Department")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

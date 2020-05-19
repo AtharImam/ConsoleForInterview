@@ -9,9 +9,40 @@ namespace ConsoleForInterview
     {
         public static void Execute()
         {
-            foreach(int num in GetNumber())
+            var obj = new YieldExample();
+            Console.WriteLine(obj);
+            var invoices = GetInvoices();
+            DoubleAmounts(invoices);
+        }
+
+        public static void DoubleAmounts(IEnumerable<Invoice> invoices)
+        {
+            foreach (var invoice in invoices)
             {
-                Console.WriteLine("Number : " + num);
+                invoice.Amount = invoice.Amount * 2;
+                Console.WriteLine("DoubleAmounts: " + invoice);
+            }
+        }
+
+        public static IEnumerable<Invoice> GetInvoices()
+        {
+            for(int index = 0; index < 5; index++)
+            {
+                Invoice inv = new Invoice { Id = index + 1, Amount = (index + 1) * 1000 };
+                Console.WriteLine("GetInvoices: " + inv);
+                yield return inv;
+            }
+        }
+
+        public class Invoice
+        {
+            public int Id { get; set; }
+
+            public double Amount { get; set; }
+
+            public override string ToString()
+            {
+                return $"Id :{Id}, Amount: {Amount}";
             }
         }
 
