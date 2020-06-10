@@ -6,4 +6,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="iTextSharp" Version="5.5.13.1" />
+    <PackageReference Include="PdfSharp" Version="1.51.5185-beta" />
+    <PackageReference Include="Spire.PDF" Version="6.5.15" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.4.20251.6" />
+  </ItemGroup>
+
 </Project>

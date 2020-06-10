@@ -37,7 +37,7 @@ namespace ConsoleForInterview.Examples
             }
         }
     }
-    public class CollectionClass
+    public class CollectionClass : IEnumerable
     {
         private string _parameter;
 
