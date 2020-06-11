@@ -1,6 +1,10 @@
 ﻿using ConsoleForInterview.Examples;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,7 +12,7 @@ namespace ConsoleForInterview
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             //int totalFiles = 0;
             //long size = Utility.GetDirectorySize(@"D:\angulartest\my-first-app", ref totalFiles);
@@ -26,8 +30,60 @@ namespace ConsoleForInterview
             //UnityContainerTest.Execute();
             //LinqExample.Execute();
             //ShallowVsDeepClone.Execute();
-            BSTExample.Execute();
-        }   
+            //BSTExample.Execute();
+            //Task delay = asyncTask();
+            //syncCode();
+            //delay.Wait();
+            //Console.ReadLine();
+            //WaitFor().Wait();
+            (int x, string s) = ReturnMultiple();
+            Console.WriteLine($"{x} {s}");
+        }
+
+        static (int, string) ReturnMultiple()
+        {
+            return (5, "Imam");
+        }
+
+        private static async Task WaitFor()
+        {
+            await Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+            });
+
+            Thread.Sleep(5000);
+        }
+
+        static async Task asyncTask()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            Console.WriteLine("async: Starting");
+            Task delay = Task.Delay(5000);
+            Console.WriteLine("async: Running for {0} seconds", sw.Elapsed.TotalSeconds);
+            await delay;
+            Console.WriteLine("async: After Delay Running for {0} seconds", sw.Elapsed.TotalSeconds);
+            Console.WriteLine("async: Done");
+        }
+
+        static void syncCode()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            Console.WriteLine("sync: Starting");
+            Thread.Sleep(5000);
+            Console.WriteLine("sync: After Sleep Running for {0} seconds", sw.Elapsed.TotalSeconds);
+            Console.WriteLine("sync: Done");
+        }
+
+       
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        static void Change(out Person pers)
+        {
+            pers = new Person() {Name="Imam" };
+        }
 
         class Person
         {
