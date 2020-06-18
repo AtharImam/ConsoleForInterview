@@ -14,6 +14,13 @@ namespace ConsoleForInterview
     {
         static async Task Main(string[] args)
         {
+            string[] paths = { @"D:\angulartest\auth-01-auth-component\node_modules",
+            @"D:\angulartest\firstangapp\node_modules",@"D:\angulartest\http-01-start\node_modules",
+            @"D:\angulartest\my-first-app\node_modules",@"D:\angulartest\pipes-start\node_modules"};
+            Parallel.ForEach(paths, (path) =>
+            {
+                Utility.DeleteDirectory(path);
+            });
             //int totalFiles = 0;
             //long size = Utility.GetDirectorySize(@"D:\angulartest\my-first-app", ref totalFiles);
             //Console.WriteLine($"Total Files: {totalFiles}, Size in MB: {((size / 1024) / 1024)}");
@@ -36,10 +43,12 @@ namespace ConsoleForInterview
             //delay.Wait();
             //Console.ReadLine();
             //WaitFor().Wait();
-            (int x, string s) = ReturnMultiple();
-            Console.WriteLine($"{x} {s}");
+            //(int x, string s) = ReturnMultiple();
+            //Console.WriteLine($"{x} {s}");
+            //VolatileExample.Execute();
+            Console.ReadLine();
         }
-
+        
         static (int, string) ReturnMultiple()
         {
             return (5, "Imam");
@@ -55,7 +64,7 @@ namespace ConsoleForInterview
             Thread.Sleep(5000);
         }
 
-        static async Task asyncTask()
+        static async Task AsyncTask()
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -67,7 +76,7 @@ namespace ConsoleForInterview
             Console.WriteLine("async: Done");
         }
 
-        static void syncCode()
+        static void SyncCode()
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -76,8 +85,6 @@ namespace ConsoleForInterview
             Console.WriteLine("sync: After Sleep Running for {0} seconds", sw.Elapsed.TotalSeconds);
             Console.WriteLine("sync: Done");
         }
-
-       
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         static void Change(out Person pers)

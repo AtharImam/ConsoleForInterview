@@ -18,8 +18,7 @@ namespace ConsoleForInterview
             Console.WriteLine("Main thread: starting worker thread...");
 
             // Loop until the worker thread activates.
-            while (!workerThread.IsAlive)
-                ;
+            while (!workerThread.IsAlive);
 
             // Put the main thread to sleep for 500 milliseconds to
             // allow the worker thread to do some work.
@@ -37,26 +36,27 @@ namespace ConsoleForInterview
         // Main thread: starting worker thread...
         // Worker thread: terminating gracefully.
         // Main thread: worker thread has terminated.
-    }
 
-    public class Worker
-    {
-        // This method is called when the thread is started.
-        public void DoWork()
+        public class Worker
         {
-            bool work = false;
-            while (!_shouldStop)
+            // This method is called when the thread is started.
+            public void DoWork()
             {
-                work = !work; // simulate some work
+                bool work = false;
+                while (!_shouldStop)
+                {
+                    work = !work; // simulate some work
+                }
+                Console.WriteLine("Worker thread: terminating gracefully.");
             }
-            Console.WriteLine("Worker thread: terminating gracefully.");
+            public void RequestStop()
+            {
+                _shouldStop = true;
+            }
+
+            // Keyword volatile is used as a hint to the compiler that this data
+            // member is accessed by multiple threads.
+            private volatile bool _shouldStop;
         }
-        public void RequestStop()
-        {
-            _shouldStop = true;
-        }
-        // Keyword volatile is used as a hint to the compiler that this data
-        // member is accessed by multiple threads.
-        private volatile bool _shouldStop;
     }
 }

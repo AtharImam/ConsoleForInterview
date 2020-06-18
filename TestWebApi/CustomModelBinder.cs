@@ -20,13 +20,13 @@ namespace TestWebApi
             if (values.Length == 0)
                 return Task.CompletedTask;
             var splitObj = values.FirstValue.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            List<Employee> empls = new List<Employee>();
+            List<TestEmployee> empls = new List<TestEmployee>();
             foreach(string str in splitObj)
             {
                 var splitData = str.Split(new char[] { '|' });
                 if (splitData.Length >= 2)
                 {
-                    var result = new Employee
+                    var result = new TestEmployee
                     {
                         Id = Convert.ToInt32(splitData[0]),
                         Name = splitData[1]
@@ -75,7 +75,7 @@ namespace TestWebApi
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (context.Metadata.ModelType == typeof(Employee) || context.Metadata.ModelType == typeof(List<Employee>))
+            if (context.Metadata.ModelType == typeof(TestEmployee) || context.Metadata.ModelType == typeof(List<TestEmployee>))
             {
                 return new EmployeeModelBinder();
             }
@@ -89,7 +89,7 @@ namespace TestWebApi
     }
 
     [ModelBinder(BinderType = typeof(EmployeeModelBinder))]
-    public class Employee
+    public class TestEmployee
     {
         public int Id { get; set; }
 

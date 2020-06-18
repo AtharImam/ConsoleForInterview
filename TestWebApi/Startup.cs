@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Jwt;
+using TestWebApi.Database;
 
 namespace TestWebApi
 {
@@ -28,11 +32,23 @@ namespace TestWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
             //services.Configure<KestrelServerOptions>(Configuration.GetSection("Kestrel"));
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new PersonTypeConverter());
             });
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("TestDb"));
+            });
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             services.AddAuthentication(x =>
             {
@@ -80,10 +96,13 @@ namespace TestWebApi
             }
 
             app.UseRouting();
-
+            
             app.UseAuthentication();
+
             app.UseAuthorization();
             app.UseHttpsRedirection();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
