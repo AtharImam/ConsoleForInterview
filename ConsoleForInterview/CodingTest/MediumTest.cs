@@ -416,27 +416,6 @@ namespace ConsoleForInterview.CodingTest
 			return count[n];
 		}
 
-		public static int CountDecoding1(char[] digits, int n)
-        {
-			string str = new string(digits);
-            //Console.WriteLine($"{str} {n}");
-			if (n == 1 || n == 0)
-				return 1;
-
-			int count = 0;
-            if (digits[n - 1] != '0')
-            {
-				count += CountDecoding1(digits, n - 1);
-            }
-
-			if(digits[n - 2] == '1' || (digits[n-2]=='2' && digits[n-1]<='6' ))
-            {
-				count += CountDecoding1(digits, n - 2);
-            }
-
-			return count;
-        }
-
 		public static int CountDecoding(char[] digits, int n)
 		{
 			string str = new string(digits);
@@ -457,9 +436,7 @@ namespace ConsoleForInterview.CodingTest
 			// If the last two digits form a number 
 			// smaller than or equal to 26, then  
 			// consider last two digits and recur 
-			if (digits[n - 2] == '1' ||
-						(digits[n - 2] == '2' &&
-						   digits[n - 1] < '7'))
+			if (digits[n - 2] == '1' || (digits[n - 2] == '2' && digits[n - 1] <= '6'))
 				count += CountDecoding(digits, n - 2);
 
 			return count;

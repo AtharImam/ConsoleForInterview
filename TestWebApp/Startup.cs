@@ -1,20 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin.Security.Jwt;
+using TestWebApp.Database;
 
 namespace TestWebApp
 {
@@ -32,25 +26,46 @@ namespace TestWebApp
         {
             services.AddAuthorization(options =>
             {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme)
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build();
             });
 
+            services.AddDbContext<Chain1DbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Chain1Db"));
+            });
+
+            services.AddDbContext<Chain2DbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Chain2Db"));
+            });
+
             services.AddAuthentication(config =>
             {
-                config.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                config.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                config.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie(options =>
+            //.AddCookie("Bearer", options =>
+            //  {
+            //      options.LoginPath = "/auth/index";
+            //      options.LogoutPath = "/auth/logout";
+            //      options.AccessDeniedPath = "/auth/index";
+            //      options.Cookie.HttpOnly = true;
+            //      options.Cookie.Name = Constants.AuthCookie;
+            //      options.ExpireTimeSpan = TimeSpan.FromHours(1);
+            //  });
+            .AddJwtBearer(options =>
             {
-                options.LoginPath = "/auth/index";
-                options.LogoutPath = "/auth/logout";
-                options.AccessDeniedPath = "/auth/index";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Name = Constants.AuthCookie;
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.TokenValidationParameters = GetTokenValidationParameters();
+                options.ForwardSignIn = "/auth/index";
+                //options.LoginPath = "/auth/index";
+                //options.LogoutPath = "/auth/logout";
+                //options.AccessDeniedPath = "/auth/index";
+                //options.Cookie.HttpOnly = true;
+                //options.Cookie.Name = Constants.AuthCookie;
+                //options.ExpireTimeSpan = TimeSpan.FromHours(1);
             });
 
             services.AddControllersWithViews();
@@ -72,9 +87,9 @@ namespace TestWebApp
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseCookiePolicy();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseCookiePolicy();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

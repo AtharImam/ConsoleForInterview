@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +29,7 @@ namespace TestWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DoAuthorizeAdmin()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
             await AuthorizeRequest(true);
             return RedirectToAction("index", "home");
         }
@@ -45,15 +44,17 @@ namespace TestWebApp.Controllers
               new Claim(ClaimTypes.Role, isAdmin?"Admin":"User")
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            
+            var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+
             //, "Role", isAdmin ? "Admin" : "User"
             var authProperties = new AuthenticationProperties();
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+            //await HttpContext.SignInAsync(
+            //    JwtBearerDefaults.AuthenticationScheme,
+            //    new ClaimsPrincipal(claimsIdentity),
+            //    authProperties);
+            await Task.CompletedTask;
+            HttpContext.Response.Headers.Add("Authorization", "Bearer " + token);
         }
 
         private string GetJSONWebToken(bool isAdmin)
@@ -76,7 +77,7 @@ namespace TestWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
             return RedirectToAction("index", "home");
         }
     }

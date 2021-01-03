@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConsoleForInterview
+﻿namespace ConsoleForInterview
 {
     public class DynamicVsObject
     {

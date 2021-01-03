@@ -1,100 +1,51 @@
 ﻿using ConsoleForInterview.Examples;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using ConsoleForInterview.CodingTest;
 
 namespace ConsoleForInterview
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            string[] paths = { @"D:\angulartest\auth-01-auth-component\node_modules",
-            @"D:\angulartest\firstangapp\node_modules",@"D:\angulartest\http-01-start\node_modules",
-            @"D:\angulartest\my-first-app\node_modules",@"D:\angulartest\pipes-start\node_modules"};
-            Parallel.ForEach(paths, (path) =>
-            {
-                Utility.DeleteDirectory(path);
-            });
+            //string[] paths = { @"D:\angulartest\auth-01-auth-component\node_modules",
+            //@"D:\angulartest\firstangapp\node_modules",@"D:\angulartest\http-01-start\node_modules",
+            //@"D:\angulartest\my-first-app\node_modules",@"D:\angulartest\pipes-start\node_modules"};
+            //Parallel.ForEach(paths, (path) =>
+            //    Utility.DeleteDirectory(path);
             //int totalFiles = 0;
             //long size = Utility.GetDirectorySize(@"D:\angulartest\my-first-app", ref totalFiles);
             //Console.WriteLine($"Total Files: {totalFiles}, Size in MB: {((size / 1024) / 1024)}");
             //Utility.DeleteDirectory(@"D:\angulartest\my-first-app\node_modules");
-            //Utility.CopyDirectory(@"D:\angulartest\my-first-app\node_modules", @"D:\angulartest\auth-01-auth-component");
-            //Console.ReadLine();
-            //MediumTest.Execute();
-            //Console.WriteLine(Convert.ToString(10, 2));
-            //Console.WriteLine(Convert.ToInt32("101", 2));
-            //Console.WriteLine($"{(int)'A'} {(int)'a'} {(int)'0'}");
+            //Utility.CopyDirectory(@"D:\JSExamples\angulartest\my-first-app\node_modules", @"D:\JSExamples\angulartest\ng-pwa-01-start");
 
-            //IEnumeratorVsIEnumerable.Execute();
-            //IComparerVsIComparable.Execute();  
-            //UnityContainerTest.Execute();
-            //LinqExample.Execute();
-            //ShallowVsDeepClone.Execute();
-            //BSTExample.Execute();
-            //Task delay = asyncTask();
-            //syncCode();
-            //delay.Wait();
-            //Console.ReadLine();
-            //WaitFor().Wait();
-            //(int x, string s) = ReturnMultiple();
-            //Console.WriteLine($"{x} {s}");
-            //VolatileExample.Execute();
-            Console.ReadLine();
-        }
-        
-        static (int, string) ReturnMultiple()
-        {
-            return (5, "Imam");
-        }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    using (SqlConnection conn = new SqlConnection("Data Source=localhost; Initial Catalog=TestDb; User Id=sa; Password=Passw0rd"))
+            //    {
+            //        conn.Open();
+            //        Console.WriteLine("Connection Open: " + i);
+            //        //conn.Close();
+            //    }
+            //}
 
-        private static async Task WaitFor()
-        {
-            await Task.Run(() =>
-            {
-                Thread.Sleep(5000);
-            });
+            //ArrayElementAppears.Execute();
+            //CamelCase.Execute();
+            //Console.WriteLine(MediumTest.AlphabetIndex("Hello India"));
+            //Console.WriteLine(MediumTest.CountDecoding("1231".ToCharArray(), 3));
 
-            Thread.Sleep(5000);
-        }
 
-        static async Task AsyncTask()
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            Console.WriteLine("async: Starting");
-            Task delay = Task.Delay(5000);
-            Console.WriteLine("async: Running for {0} seconds", sw.Elapsed.TotalSeconds);
-            await delay;
-            Console.WriteLine("async: After Delay Running for {0} seconds", sw.Elapsed.TotalSeconds);
-            Console.WriteLine("async: Done");
-        }
-
-        static void SyncCode()
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            Console.WriteLine("sync: Starting");
-            Thread.Sleep(5000);
-            Console.WriteLine("sync: After Sleep Running for {0} seconds", sw.Elapsed.TotalSeconds);
-            Console.WriteLine("sync: Done");
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        static void Change(out Person pers)
-        {
-            pers = new Person() {Name="Imam" };
-        }
-
-        class Person
-        {
-            public string Name { get; set; }
+            //AlphabetDecoding.Execute();
+            //AlphabetFrequency.Execute();
+            //GCDExample.Execute();
+            //ChangeVariableExample.Execute();
+            //SecondLargestNumberExample.Execute();
+            ArrayElementAppears.Execute();
+            Console.Read();
         }
     }
 }

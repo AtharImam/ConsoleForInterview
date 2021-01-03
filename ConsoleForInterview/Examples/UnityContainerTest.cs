@@ -1,12 +1,5 @@
-﻿using Ninject;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Security.Permissions;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks.Sources;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;

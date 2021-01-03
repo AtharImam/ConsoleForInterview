@@ -6,9 +6,21 @@ namespace ConsoleForInterview
 {
     class DelegateExample
     {
+        delegate string del(string str);
+
         public static void Execute()
         {
+            del d = GetHello;
+            d += GetHello;
+            Console.WriteLine(d?.Invoke("Athar"));
+            Console.WriteLine("====================================");
+            Console.WriteLine(d("Imam"));
+        }
 
+        static string GetHello(string str)
+        {
+            Console.WriteLine("Called Hello");
+            return "Hello " + str;
         }
 
         public static void Test3()

@@ -1,6 +1,4 @@
 ﻿using ConsoleForAzure.Models;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Auth;
 using Microsoft.Azure.Storage.Blob;
 using System;
 using System.IO;

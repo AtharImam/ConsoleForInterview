@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConsoleForInterview.CodingTest
+﻿namespace ConsoleForInterview.CodingTest
 {
     public class Calculator
     {

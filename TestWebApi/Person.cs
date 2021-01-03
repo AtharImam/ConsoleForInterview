@@ -1,10 +1,6 @@
-﻿
-using Newtonsoft.Json;
-using System.ComponentModel;
-
-namespace TestWebApi
+﻿namespace TestWebApi
 {
-   // [JsonConverter(typeof(PersonTypeConverter))]
+    // [JsonConverter(typeof(PersonTypeConverter))]
     public class Person
     {
         public string  FirstName { get; set; }

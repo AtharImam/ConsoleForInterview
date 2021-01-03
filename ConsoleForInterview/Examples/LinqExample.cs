@@ -1,11 +1,8 @@
-﻿using Ninject.Infrastructure.Language;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 
 namespace ConsoleForInterview.Examples
 {

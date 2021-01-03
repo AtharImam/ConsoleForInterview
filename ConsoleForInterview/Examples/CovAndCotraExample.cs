@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.EntitySql;
-using System.Threading;
-using System.Xml.Schema;
 
 namespace ConsoleForInterview
 {

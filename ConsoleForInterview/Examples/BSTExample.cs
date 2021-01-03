@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace ConsoleForInterview.Examples
 {

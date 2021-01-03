@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CodeFirstExample
+﻿namespace CodeFirstExample
 {
     /// <summary>
     /// ProductModel class for Service layer.

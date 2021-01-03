@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects.DataClasses;
-using System.Text;
 using System.Text.Json;
 
 namespace ConsoleForInterview

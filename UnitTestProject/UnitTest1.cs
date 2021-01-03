@@ -1,10 +1,7 @@
 using ConsoleForInterview.CodingTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Rhino.Mocks;
-using System;
 using Unity;
-using MockRepository = Rhino.Mocks.MockRepository;
 
 namespace UnitTestProject
 {
